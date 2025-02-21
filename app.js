@@ -40,7 +40,7 @@ main().then(()=>{
 app.get('/',async(req,res)=>{
     let memberData = await Members.find({});
     // console.log(memberData);
-    console.log(`Ip address of client ${req.ip}`);
+    // console.log(`Ip address of client ${req.ip}`);
 
     res.render('webPage/homePage.ejs',{memberData});
 })
