@@ -9,6 +9,19 @@ const ExpressError = require('./utils/ExpressError.js');
 const memberRoute = require('./routes/memberRoute');
 const eventRoute = require('./routes/eventRoute');
 const Members = require('./models/memberSchma.js');
+const session = require('express-session');
+const exp = require('constants');
+const sessionOption = {
+    secret:"mysecretsuperstring",
+    resave: false,
+    saveUninitialized:true,
+    cookie:{
+        expires: Date.now() + 7*24*60*60*1000,
+        maxAge: 7*24*60*60*1000,
+        httpOnly:true
+    }
+};
+const flash = require('connect-flash');
 
 
 
@@ -18,6 +31,10 @@ app.use(express.static(path.join(__dirname,'public')));
 app.use(express.urlencoded({extended:true}));
 app.use(methodOverride('_method'));
 app.engine('ejs',ejsMate);
+
+app.use(session(sessionOption));
+app.use(flash())
+
 
 
 
@@ -36,6 +53,16 @@ main().then(()=>{
 
 
 //home page request
+
+// app.get('/test', (req,res)=>{
+//     const {name = 'anonymous'}= req.query;
+//     req.session.name = name;
+//     res.send(`${name}`);
+// })
+
+// app.get('/nameVal',(req,res)=>{
+//     res.send(req.session.name);
+// })
 
 app.get('/',async(req,res)=>{
     let memberData = await Members.find({});

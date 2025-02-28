@@ -16,6 +16,7 @@ router.get('/new',(req,res)=>{
 router.post('/create',validateEvent, async(req, res)=>{
     const newEvent = new Events(req.body.events);
     const eventData = await newEvent.save();
+    req.flash('success','Event successfully added');
     res.redirect(`/event/${newEvent.type}`);
 })
 
@@ -30,6 +31,7 @@ router.get('/show/:_id', async(req,res)=>{
 router.delete('/delete/:id',async (req, res)=>{
     const {id} = req.params;
     const data = await Events.findByIdAndDelete(id);
+    req.flash('success','Event successfully deleted');
     res.redirect(`/event/${data.type}`);
 })
 
@@ -39,6 +41,7 @@ router.get('/editForm/:id', async (req, res)=>{
     let {id} = req.params;
    
     let currEvent = await Events.findById(id);
+    
     res.render('webPage/editEvent.ejs',{currEvent});
 })
 
@@ -48,6 +51,7 @@ router.put('/edit/:id', validateEvent,                                          
     let {id} = req.params;
     let {events} = req.body;
     await Events.findByIdAndUpdate(id,{...events});
+    req.flash('success','Event successfully deleted');
     res.redirect(`/event/show/${id}`);
 })
 
