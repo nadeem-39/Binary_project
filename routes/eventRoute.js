@@ -24,23 +24,42 @@ router.post('/create',validateEvent, async(req, res)=>{
 router.get('/show/:_id', async(req,res)=>{
     const {_id} = req.params;
     const currEvent = await Events.findById(_id);
+    if(!currEvent){
+        req.flash('error','Event no longer exist')
+        res.redirect('/')
+    }
     res.render('webPage/singleEventShow.ejs',{currEvent});
 })
 
 // delete event
 router.delete('/delete/:id',async (req, res)=>{
     const {id} = req.params;
-    const data = await Events.findByIdAndDelete(id);
+    let data  = await Events.findById(id);
+    if(!data){
+        req.flash('error','Event no longer exist')
+        res.redirect('/')
+    }
+    await Events.findByIdAndDelete(id);
+    
     req.flash('success','Event successfully deleted');
     res.redirect(`/event/${data.type}`);
+    
+    
 })
 
 //render edit form of event
 
 router.get('/editForm/:id', async (req, res)=>{
     let {id} = req.params;
+    
    
     let currEvent = await Events.findById(id);
+
+    if(!currEvent){
+        req.flash('error','Event no longer exist')
+        res.redirect('/')
+    }
+
     
     res.render('webPage/editEvent.ejs',{currEvent});
 })
@@ -50,8 +69,12 @@ router.get('/editForm/:id', async (req, res)=>{
 router.put('/edit/:id', validateEvent,                                                                                       async(req, res)=>{
     let {id} = req.params;
     let {events} = req.body;
+    if(!events){
+        req.flash('error','Event no longer exist')
+        res.redirect('/')
+    }
     await Events.findByIdAndUpdate(id,{...events});
-    req.flash('success','Event successfully deleted');
+    req.flash('success','Event successfully edited');
     res.redirect(`/event/show/${id}`);
 })
 

@@ -12,6 +12,7 @@ router.get('/new',(req,res)=>{
 router.post('/create',validateMember, async(req,res)=>{
     const newMember = new Members(req.body.members);
     const memberData = await newMember.save();
+    req.flash('success','Successfully added new member')
     res.redirect('/');
 })
 
@@ -19,6 +20,7 @@ router.post('/create',validateMember, async(req,res)=>{
 router.delete('/delete/:id', async(req, res)=>{
     const {id} = req.params;
     const data = await Members.findByIdAndDelete(id);
+    req.flash('success','Successfully deleted new member');
     res.redirect('/');
 })
 

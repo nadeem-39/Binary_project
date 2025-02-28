@@ -1,12 +1,17 @@
+const express = require('express');
+const app = express();
 const {memberSchemaValidateFunct, eventSchemaValidateFunct} = require('./schemaValidation/schemaValidateFile.js');
 const ExpressError = require('./utils/ExpressError.js');
+const flash = require('connect-flash');
+
+app.use(flash());
+
+
+
+
 
 //flash messages
 
-module.exports.flashMessage = (req,res,next)=>{
-    res.locals.successMsg = req.flash('success');
-    res.locals.errorMsg = req.flash('error');
-}
 
 
 //validate function member

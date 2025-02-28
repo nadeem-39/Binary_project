@@ -10,7 +10,6 @@ const memberRoute = require('./routes/memberRoute');
 const eventRoute = require('./routes/eventRoute');
 const Members = require('./models/memberSchma.js');
 const session = require('express-session');
-const exp = require('constants');
 const sessionOption = {
     secret:"mysecretsuperstring",
     resave: false,
@@ -33,7 +32,7 @@ app.use(methodOverride('_method'));
 app.engine('ejs',ejsMate);
 
 app.use(session(sessionOption));
-app.use(flash())
+app.use(flash());
 
 
 
@@ -52,17 +51,14 @@ main().then(()=>{
 
 
 
+app.use((req,res,next)=>{
+    res.locals.successMsg = req.flash('success');
+    res.locals.errorMsg = req.flash('error');
+    next();
+});
+
 //home page request
 
-// app.get('/test', (req,res)=>{
-//     const {name = 'anonymous'}= req.query;
-//     req.session.name = name;
-//     res.send(`${name}`);
-// })
-
-// app.get('/nameVal',(req,res)=>{
-//     res.send(req.session.name);
-// })
 
 app.get('/',async(req,res)=>{
     let memberData = await Members.find({});
