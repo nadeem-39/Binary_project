@@ -8,6 +8,7 @@ const ejsMate = require('ejs-mate');
 const ExpressError = require('./utils/ExpressError.js');
 const memberRoute = require('./routes/memberRoute');
 const eventRoute = require('./routes/eventRoute');
+const userRoute = require('./routes/userRoute');
 const Members = require('./models/memberSchma.js');
 const session = require('express-session');
 const sessionOption = {
@@ -21,6 +22,9 @@ const sessionOption = {
     }
 };
 const flash = require('connect-flash');
+const passport = require('passport');
+const LocalStratergy = require('passport-local');
+const User = require('./models/userSchema.js');
 
 
 
@@ -33,6 +37,14 @@ app.engine('ejs',ejsMate);
 
 app.use(session(sessionOption));
 app.use(flash());
+
+
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(new LocalStratergy(User.authenticate()));
+
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
 
 
 
@@ -77,6 +89,9 @@ app.use('/member',memberRoute);
 
 //evnet new form 
 app.use('/event',eventRoute);
+
+// userRoute 
+app.use('/user',userRoute);
 
 
 
