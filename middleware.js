@@ -5,15 +5,6 @@ const ExpressError = require('./utils/ExpressError.js');
 const flash = require('connect-flash');
 
 app.use(flash());
-
-
-
-
-
-//flash messages
-
-
-
 //validate function member
 module.exports.validateMember = (req ,res, next)=>{
     let  {error} = memberSchemaValidateFunct.validate(req.body);
@@ -33,4 +24,30 @@ module.exports.validateMember = (req ,res, next)=>{
         throw new ExpressError(error);
     }
     next();
+ }
+
+ module.exports.isLoggedIn = (req, res, next)=>{
+    if(!req.isAuthenticated()){
+        req.session.redirectUrl = req.originalUrl;
+        req.flash('error','You need to sign in first');
+        res.redirect('/user/signInForm');
+    }else{
+        next();
+    }
+ }
+
+ module.exports.saveRedirectUrl = (req,res,next)=>{
+    if(req.session.redirectUrl){
+        res.locals.redirectUrl = req.session.redirectUrl
+    }
+    next();
+ }
+
+ module.exports.isOwner = (req,res,next)=>{
+    if(req.user.username !="binaryclub"){
+        req.flash('error','You are not the owner');
+        return res.redirect('/');
+    }
+    next();
+    
  }

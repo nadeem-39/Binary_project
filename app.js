@@ -66,6 +66,7 @@ main().then(()=>{
 app.use((req,res,next)=>{
     res.locals.successMsg = req.flash('success');
     res.locals.errorMsg = req.flash('error');
+    res.locals.currUser = req.user;
     next();
 });
 
@@ -111,6 +112,6 @@ app.use((err,req,res,next)=>{
 
 
 
-app.listen(8080,()=>{
-    console.log('listing port 8080');
+app.listen(8000,()=>{
+    console.log('listing port 8000');
 })

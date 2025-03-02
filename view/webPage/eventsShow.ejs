@@ -15,12 +15,14 @@
                 </div>
               </div></a>
             <% } %>
+            <%if(currUser && currUser.username=='binaryclub'){%>
             <a href="/event/new">
               <div class="card mb-2" style="width: 18rem;">
                   <img src="../images/plus_icon.png" class="card-img-top" alt="member_image">
                   <p style="text-align: center;" class="card-title">Add Event</p>
               </div>
           </a>
+          <% } %>
       </div>
       
 </body>

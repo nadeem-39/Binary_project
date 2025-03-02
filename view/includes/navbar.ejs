@@ -11,10 +11,13 @@
           <h2>Its all about 0's and 1's</h2>
         </div>
         <div class="navbar-nav ms-auto">
-          <a class="nav-link  " style="color: black;" aria-current="page" href="/user/signUpForm"><b>sign-up</b></a>
-          <a class="nav-link" style="color: black;" href="/user/signInForm"><b>sign-in</b></a>
-          <a class="nav-link" style="color: black;" href="/logout"><b>sign-out</b></a>
-          
+          <%if(!currUser){%>
+            <a class="nav-link  " style="color: black;" aria-current="page" href="/user/signUpForm"><b>sign-up</b></a>
+            <a class="nav-link" style="color: black;" href="/user/signInForm"><b>sign-in</b></a>
+            <% }else{ %>
+              <a class="nav-link" style="color: black;" href="/">Hii @<%=currUser.username %></a>
+              <a class="nav-link" style="color: black;" href="/user/signout"><b>sign-out</b></a>
+            <% } %>
         </div>
       </div>
     </div>

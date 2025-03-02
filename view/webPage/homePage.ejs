@@ -133,15 +133,17 @@
                             <li>Branch : <%=member.branch %></li>
                             <li>E-Mail : <%= member.email.split('@')[0]+'@' %></li>
                             <li>Skills : <%=member.skills %></li>
-                            <li><form method="POST" action="/member/delete/<%=member._id%>?_method=DELETE">
-                                <button class="btn  memberDeleteButton ">X</button>
-                            </form></li>
+                            <%if(currUser && currUser.username=='binaryclub'){%>
+                                <li><form method="POST" action="/member/delete/<%=member._id%>?_method=DELETE">
+                                    <button class="btn  memberDeleteButton ">X</button>
+                                </form></li>
+                            <% } %>
                         </ul>
                     </div>
                 </div>
             </div>
         <% } %>
-
+        <%if(currUser && currUser.username=='binaryclub'){%>
             <a href="/member/new">
 
                 <div class="containerMember mb-2">
@@ -159,6 +161,7 @@
                     </div>
                 </div>
             </a>
+            <% } %>
     </div>
 <!-- About-club page-Binary -->
 <hr id="about">

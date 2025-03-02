@@ -37,6 +37,7 @@
                     <p class="card-text"><%= currEvent.venue %></p>
                     <br>
                     <br>
+                <%if(currUser && currUser.username=='binaryclub'){%>
                 <div class="edit-delete-btn">
                     <form action="/event/editForm/<%=currEvent._id%>" class="me-4">
                         <button class="btn btn-primary">Edit</button>
@@ -47,6 +48,7 @@
                     </form>
 
                 </div>
+                <% }%>
 
               </div>
         </div>
